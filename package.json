@@ -5,7 +5,8 @@
   "scripts": {
     "prepublishOnly": "npm run build",
     "test": "jest",
-    "build": "rollup -c rollup.config.js"
+    "dev": "rollup --watch --config rollup.config.js",
+    "build": "rollup --config rollup.config.js"
   },
   "main": "dist/vue-trim.common.js",
   "module": "dist/vue-trim.esm.js",
