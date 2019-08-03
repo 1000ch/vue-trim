@@ -1,6 +1,6 @@
 {
   "name": "vue-trim",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Vue.js component for trimming images using Cropper.js",
   "scripts": {
     "prepublishOnly": "npm run build",
