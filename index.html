@@ -5,6 +5,7 @@
     <title>&lt;vue-trim&gt;: Vue.js component for trimming images using Cropper.js</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cropperjs@1.5.5/dist/cropper.min.css">
     <style>
       body, code {
         font-family: menlo, monospace;
@@ -25,17 +26,47 @@
         <vue-cell width="12of12">
           <vue-trim
             style="width: 100%;"
-            :src="src"
+            src="./lena.jpg"
+            ref="trim"
+            @crop="onCrop"
           />
         </vue-cell>
-        <vue-cell width="12of12">
-          <input
-            type="file"
-            accept=".jpg,.png,.gif"
-            @change="onChange"
-          >
-        </vue-cell>
       </vue-grid>
+      <div>
+        <label>
+          x: <input type="text" :value="x" readonly>
+        </label>
+      </div>
+      <div>
+        <label>
+          y: <input type="text" :value="y" readonly>
+        </label>
+      </div>
+      <div>
+        <label>
+          width: <input type="text" :value="width" readonly>
+        </label>
+      </div>
+      <div>
+        <label>
+          height: <input type="text" :value="height" readonly>
+        </label>
+      </div>
+      <div>
+        <label>
+          scaleX: <input type="text" :value="scaleX" readonly>
+        </label>
+      </div>
+      <div>
+        <label>
+          scaleY: <input type="text" :value="scaleY" readonly>
+        </label>
+      </div>
+      <div>
+        <label>
+          rotate: <input type="text" :value="rotate" readonly>
+        </label>
+      </div>
       <h2>License</h2>
       <p><a href="https://1000ch.mit-license.org" rel="nofollow">MIT</a> © <a href="https://github.com/1000ch">Shogo Sensui</a></p>
     </div>
@@ -49,19 +80,27 @@
 
       const app = new Vue({
         el: '#app',
-        props: {
-          src: {
-            default: null,
-            type: String
-          }
+        data() {
+          return {
+            x: 0,
+            y: 0,
+            width: 0,
+            height: 0,
+            scaleX: 0,
+            scaleY: 0,
+            rotate: 0
+          };
         },
         methods: {
-          onChange(e) {
-            if (e.target.files.length !== 1) {
-              return;
-            }
+          onCrop() {
+            const data = this.$refs.trim.cropper.getData();
 
-            this.src = URL.createObjectURL(e.target.files[0]);
+            this.x = data.x;
+            this.y = data.y;
+            this.width = data.width;
+            this.height = data.width;
+            this.scaleX = data.scaleX;
+            this.scaleY = data.scaleY;
           }
         }
       });
