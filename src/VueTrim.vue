@@ -237,6 +237,39 @@ export default {
 
       this.cropper = new Cropper(this.$refs.img, options);
     },
+    getData(rounded) {
+      return this.cropper.getData(rounded);
+    },
+    setData(data) {
+      this.cropper.setData(data);
+    },
+    getContainerData() {
+      return this.cropper.getContainerData();
+    },
+    getImageData() {
+      return this.cropper.getImageData();
+    },
+    getCanvasData() {
+      return this.cropper.getCanvasData();
+    },
+    setCanvasData(data) {
+      this.cropper.setCanvasData(data);
+    },
+    getCropBoxData() {
+      return this.cropper.getCropBoxData();
+    },
+    setCropBoxData(data) {
+      this.cropper.setCropBoxData(data);
+    },
+    getCroppedCanvas(options) {
+      return this.cropper.getCroppedCanvas(options);
+    },
+    setAspectRatio(aspectRatio) {
+      this.cropper.setAspectRatio(aspectRatio);
+    },
+    setDragMode(mode) {
+      this.cropper.setDragMode(mode);
+    },
     ready(e) {
       this.$emit('ready', e);
     },
