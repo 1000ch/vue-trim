@@ -1,8 +1,10 @@
 <template>
-  <img
-    ref="img"
+  <component
+    ref="cropTarget"
+    :is="tag"
     :alt="alt"
     :src="src"
+    :file="file"
   />
 </template>
 
@@ -71,13 +73,22 @@ const dragModeValues = [
 export default {
   name: 'VueTrim',
   props: {
+    tag: {
+      default: 'img',
+      type: String,
+      validator: value => tagValues.includes(value)
+    },
     src: {
-      default: '',
+      default: null,
       type: String
     },
     alt: {
       default: '',
       type: String
+    },
+    file: {
+      default: null,
+      type: Object
     },
     viewMode: {
       default: 0,
@@ -98,7 +109,7 @@ export default {
       type: Number
     },
     data: {
-      default: {},
+      default: () => {},
       type: Object
     },
     responsive: {
@@ -218,8 +229,32 @@ export default {
   },
   watch: {
     src() {
+      if (this.tag !== 'img') {
+        return;
+      }
+
       this.initialize();
-    }
+    },
+    file() {
+      if (this.tag !== 'canvas') {
+        return;
+      }
+
+      const context = this.$refs.cropTarget.getContext('2d');
+      const image = new Image();
+      const fileReader = new FileReader();
+
+      image.addEventListener('load', () => {
+        context.drawImage(image, 0, 0);
+        this.initialize();
+      });
+
+      fileReader.addEventListener('load', () => {
+        image.src = fileReader.result;
+      });
+
+      fileReader.readAsDataURL(this.file);
+    },
   },
   mounted() {
     this.initialize();
@@ -235,7 +270,7 @@ export default {
         options[cropperOption] = this[cropperOption];
       }
 
-      this.cropper = new Cropper(this.$refs.img, options);
+      this.cropper = new Cropper(this.$refs.cropTarget, options);
     },
     getData(rounded) {
       return this.cropper.getData(rounded);

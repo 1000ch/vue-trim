@@ -7,22 +7,38 @@ describe('VueTrim', () => {
     const localVue = createLocalVue();
     localVue.use(VueTrim);
 
-    const trim = mount({
+    const trim1 = mount({
       template: `<vue-trim />`
     }, { localVue });
+    const trim2 = mount({
+      template: `<vue-trim tag="img" />`
+    }, { localVue });
+    const trim3 = mount({
+      template: `<vue-trim tag="canvas" />`
+    }, { localVue });
 
-    expect(trim.html()).toEqual('<img alt=\"\" src=\"\">');
+    expect(trim1.html()).toEqual('<img alt=\"\">');
+    expect(trim2.html()).toEqual('<img alt=\"\">');
+    expect(trim3.html()).toEqual('<canvas alt=\"\"></canvas>');
   });
 
   test('works with Vue.component()', () => {
     const localVue = createLocalVue();
     localVue.component('vue-trim', VueTrim.VueTrim);
 
-    const trim = mount({
+    const trim1 = mount({
       template: `<vue-trim />`
     }, { localVue });
+    const trim2 = mount({
+      template: `<vue-trim tag="img" />`
+    }, { localVue });
+    const trim3 = mount({
+      template: `<vue-trim tag="canvas" />`
+    }, { localVue });
 
-    expect(trim.html()).toEqual('<img alt=\"\" src=\"\">');
+    expect(trim1.html()).toEqual('<img alt=\"\">');
+    expect(trim2.html()).toEqual('<img alt=\"\">');
+    expect(trim3.html()).toEqual('<canvas alt=\"\"></canvas>');
   });
 
   test('has cropper instance', () => {
