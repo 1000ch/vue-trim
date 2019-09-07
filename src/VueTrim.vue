@@ -245,7 +245,59 @@ export default {
       const fileReader = new FileReader();
 
       image.addEventListener('load', () => {
-        context.drawImage(image, 0, 0);
+        const container = this.getContainerData();
+        const sw = image.width;
+        const sh = image.height;
+        const cw = container.width;
+        const ch = container.height;
+        const diffX = cw - sw;
+        const diffY = ch - sh;
+
+        console.log('sw:', sw);
+        console.log('sh:', sh);
+        console.log('cw:', cw);
+        console.log('ch:', ch);
+        console.log('diffX:', diffX);
+        console.log('diffY:', diffY);
+
+        if (diffX < 0 && diffY < 0) {
+          if (diffX < diffY) {
+            const ratio = cw / sw;
+            context.drawImage(
+              image,
+              0, 0,
+              sw * ratio, sh * ratio
+            );
+          } else {
+            const ratio = ch / sh;
+            context.drawImage(
+              image,
+              0, 0,
+              sw * ratio, sh * ratio
+            );
+          }
+        } else if (diffX >= 0 && diffY < 0) {
+          const ratio = ch / sh;
+          context.drawImage(
+            image,
+            0, 0,
+            sw * ratio, sh * ratio
+          );
+        } else if (diffX < 0 && diffY >= 0) {
+          const ratio = cw / sw;
+          context.drawImage(
+            image,
+            0, 0,
+            sw * ratio, sh * ratio
+          );
+        } else {
+          context.drawImage(
+            image,
+            0, 0,
+            sw, sh
+          );
+        }
+
         this.initialize();
       });
 
